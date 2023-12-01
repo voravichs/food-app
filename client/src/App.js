@@ -1,5 +1,11 @@
 import "./css/App.css";
 import React, { useEffect, useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import Home from './pages/Home'
+import Restaurant from './pages/Restaurant';
+import Review from "./pages/Review";
+import User from "./pages/User";
 
 function App() {
   const [data, setData] = useState("");
@@ -16,11 +22,19 @@ function App() {
   return (
     <div className="App">
       <div>
-        <p>
+        <h1>
           You should see "Welcome to "Underground Foodies" below if you are
           successfully connected to the backend
-        </p>
-        <p>{data}</p>
+        </h1>
+        <h2>{data}</h2>
+        <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/restaurant" element={<Restaurant />} />
+          <Route path="/review" element={<Review />} />
+          <Route path="/user" element={<User />} />
+        </Routes>
+      </BrowserRouter>
       </div>
     </div>
   );
