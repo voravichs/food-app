@@ -18,6 +18,7 @@
 3. To run the server in dev mode with hot reload, run `cd` into `server` then
    run `npm run start:dev`.
 4. To run the client in dev mode with hot reload, run `cd` into `client` then run `npm run start`.
+5. Alternatively, run `npm run develop` to do both of the above, as long as you've installed concurrently (which should've been done from step 2)
 
 ## Documentation
 

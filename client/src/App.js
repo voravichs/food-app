@@ -1,25 +1,27 @@
-import logo from "./logo.svg";
-import "./App.css";
-import DeleteMe from "./DeleteMe";
+import "./css/App.css";
+import React, { useEffect, useState } from "react";
 
 function App() {
+  const [data, setData] = useState("");
+
+  useEffect(() => {
+    (async () => {
+      const res = await fetch("http://localhost:8080/");
+      const data = await res.json();
+      const { message } = data;
+      setData(message);
+    })();
+  }, []);
+
   return (
     <div className="App">
-      {/* <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+      <div>
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          You should see "Welcome to "Underground Foodies" below if you are
+          successfully connected to the backend
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header> */}
-      <DeleteMe />
+        <p>{data}</p>
+      </div>
     </div>
   );
 }
