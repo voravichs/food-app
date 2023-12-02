@@ -16,6 +16,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.use("/api/businesses", routes.businesses);
 app.use("/api/restaurants", routes.restaurants);
 app.use("/api/reviews", routes.reviews);
 app.use("/api/users", routes.users);
