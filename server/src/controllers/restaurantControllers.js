@@ -4,6 +4,7 @@ const DEFAULT_PAGE = 0;
 const DEFAULT_PAGE_SIZE = 10;
 
 // Q1: Given categories, find names of all restaurants that meet the filters
+/** @deprecated */
 const findRestaurantPartialInfoByCategories = (req, res) => {
   const {
     categories,
@@ -48,6 +49,7 @@ const findRestaurantPartialInfoByCategories = (req, res) => {
 
 // Q2: Given a business name and/or categories, return the restaurant’s name,
 // location, stars, review count, opening hours
+/** @deprecated */
 const findRestaurantByNameAndCategories = (req, res) => {
   const {
     categories,
@@ -116,6 +118,7 @@ const findRestaurantByNameAndCategories = (req, res) => {
 
 // Q2: Given a businessID, return the restaurant’s name, location, stars,
 // review count, opening hours
+/** @deprecated */
 const findRestaurantById = (req, res) => {
   const { businessId } = req.params;
 
@@ -154,6 +157,7 @@ const findRestaurantById = (req, res) => {
 };
 
 // Q3: Number of restaurants in each city of a given state
+/** @deprecated */
 const findRestaurantCountByCity = (req, res) => {
   const { state } = req.query;
 

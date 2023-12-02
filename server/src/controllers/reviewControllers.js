@@ -4,6 +4,7 @@ const DEFAULT_PAGE = 0;
 const DEFAULT_PAGE_SIZE = 10;
 
 // Q4: A user's past visits and their reviews sorted by date&time posted
+/** @deprecated */
 const findReviewsByUser = (req, res) => {
   const { userId } = req.params;
   const { page = DEFAULT_PAGE, pageSize = DEFAULT_PAGE_SIZE } = req.query;
@@ -39,6 +40,7 @@ const findReviewsByUser = (req, res) => {
 };
 
 // Q7: All reviews of a restaurant sorted by usefulness(using businessID)
+/** @deprecated */
 const findReviewsByRestaurant = (req, res) => {
   const { businessId } = req.params;
   const { page = DEFAULT_PAGE, pageSize = DEFAULT_PAGE_SIZE } = req.query;
@@ -70,6 +72,7 @@ const findReviewsByRestaurant = (req, res) => {
 };
 
 // Q7: All reviews of a restaurant sorted by usefulness(using restaurant name and postal_code)
+/** @deprecated */
 const findReviewsByRestaurantNameAndPostalCode = (req, res) => {
   const {
     restaurantName,
