@@ -5,6 +5,7 @@ const dotenv = require("dotenv");
 const path = require("path");
 
 const routes = require("./routes");
+const { errorHandler } = require("./middleware");
 
 dotenv.config({ path: path.resolve(__dirname, "../../.env") });
 
@@ -15,9 +16,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use("/api/restaurants", routes.restaurants);
+app.use("/api/businesses", routes.businesses);
 app.use("/api/reviews", routes.reviews);
 app.use("/api/users", routes.users);
+
+app.use(errorHandler);
 
 app.get("/", (_req, res) => {
   res.send({ message: "Welcome to Underground Foodies" });
