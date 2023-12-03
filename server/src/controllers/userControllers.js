@@ -74,7 +74,43 @@ const findMostVisitedRestaurants = (req, res) => {
   );
 };
 
+// Q8: A user’s past visits and their reviews sorted by date & time posted 
+const findPastVisits = (req, res) => {
+  const { userId } = req.params;
+  const { page = DEFAULT_PAGE, pageSize = DEFAULT_PAGE_SIZE } = req.query;
+
+  if (!userId) {
+    console.log("userId query param must be non-empty.");
+    res.status(400).send({
+      error: "userId must be included in the query params.",
+    });
+    return;
+  }
+
+  connection.query(
+    `With all_visits As(
+        SELECT business_id, stars, date, text, review_id
+        FROM review
+        WHERE user_id = '${userId}'
+    )
+    SELECT b.business_id, b.name, v.stars, v.review_id, v.text
+    FROM all_visits v JOIN Business b ON v.business_id = b.business_id
+    ORDER BY v.date DESC
+    LIMIT ${pageSize}
+    OFFSET ${page * pageSize};`,
+    (err, data) => {
+      if (err || data.length === 0) {
+        console.log(err);
+        res.send([]);
+      } else {
+        res.send(data);
+      }
+    }
+  );
+}
+
 module.exports = {
   findRestaurantsInMostVisitedCity,
   findMostVisitedRestaurants,
+  findPastVisits,
 };
