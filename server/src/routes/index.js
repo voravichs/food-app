@@ -1,9 +1,9 @@
 const businesses = require("./businessRoutes");
-const users = require("./userRoutes");
 const reviews = require("./reviewRoutes");
+const users = require("./userRoutes");
 
 module.exports = {
   businesses,
-  users,
   reviews,
+  users,
 };

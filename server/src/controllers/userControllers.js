@@ -70,8 +70,38 @@ const findPopularBusinesses = (req, res) => {
 
 // Q8: Returns a list of businesses the user has left reviews. Results are
 // sorted by the date and time of review creation in descending order.
-// TODO: implement function
+const findPastVisits = (req, res) => {
+  const { userId } = req.params;
+  const { page = DEFAULT_PAGE, pageSize = DEFAULT_PAGE_SIZE } = req.query;
 
+  if (!userId) {
+    const error = new Error("userId must be included in the params.");
+    error.statusCode = 400;
+    throw error;
+  }
+
+  connection.query(
+    `WITH all_visits AS (
+      SELECT business_id, stars, date, text, review_id
+      FROM review
+      WHERE user_id = '${userId}'
+    )
+    SELECT b.business_id, b.name, v.stars, v.review_id, v.text
+    FROM all_visits v JOIN Business b
+      ON v.business_id = b.business_id
+    ORDER BY v.date DESC
+    LIMIT ${pageSize}
+    OFFSET ${page * pageSize};`,
+    (err, data) => {
+      if (err || data.length === 0) {
+        console.log(`Error: ${err}`);
+        res.send([]);
+      } else {
+        res.send(data);
+      }
+    }
+  );
+};
 
 // Q9: Returns a list of 5 additional businesses from the city the user has been to
 // the most frequently. Results are sorted by rating and number of reviews both in
@@ -121,40 +151,6 @@ const findRecommendedBusinesses = (req, res) => {
     }
   );
 };
-
-const findPastVisits = (req, res) => {
-  const { userId } = req.params;
-  const { page = DEFAULT_PAGE, pageSize = DEFAULT_PAGE_SIZE } = req.query;
-
-  if (!userId) {
-    const error = new Error("userId must be included in the params.");
-    error.statusCode = 400;
-    throw error;
-  }
-
-  connection.query(
-    `With all_visits As(
-        SELECT business_id, stars, date, text, review_id
-        FROM review
-        WHERE user_id = '${userId}'
-    )
-    SELECT b.business_id, b.name, v.stars, v.review_id, v.text
-    FROM all_visits v JOIN Business b ON v.business_id = b.business_id
-    ORDER BY v.date DESC
-    LIMIT ${pageSize}
-    OFFSET ${page * pageSize};`,
-    (err, data) => {
-      if (err || data.length === 0) {
-        console.log(`Error: ${err}`);
-        res.send([]);
-      } else {
-        res.send(data);
-      }
-    }
-  );
-}
-
-
 
 module.exports = {
   getUserInfo,
