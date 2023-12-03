@@ -9,4 +9,6 @@ router.get("/:userId/popularBusinesses", users.findPopularBusinesses);
 // TODO: add Route 8
 router.get("/:userId/recommendedBusinesses", users.findRecommendedBusinesses);
 
+router.get("/:userId/findPastVisits", users.findPastVisits);
+
 module.exports = router;

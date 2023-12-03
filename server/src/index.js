@@ -18,6 +18,8 @@ app.use(express.json());
 
 app.use("/api/businesses", routes.businesses);
 // TODO: implement reviews routes
+app.use('/api/reviews', routes.reviews);
+
 app.use("/api/users", routes.users);
 
 app.use(errorHandler);
