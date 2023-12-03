@@ -116,8 +116,42 @@ const findReviewsByRestaurantNameAndPostalCode = (req, res) => {
   );
 };
 
+// Q10: Returns all the information about a review.
+const findReviewById = (req, res) => {
+  const { reviewId } = req.params;
+  const { page = DEFAULT_PAGE, pageSize = DEFAULT_PAGE_SIZE } = req.query;
+
+  if (!reviewId) {
+    console.log("ReviewId param must be non-empty.");
+    res.status(400).send({
+      error: "ReviewId must be included in the params.",
+    });
+    return;
+  }
+
+  connection.query(
+    `
+    SELECT *
+    FROM review
+    WHERE review_id = '${reviewId}'
+    LIMIT ${pageSize}
+    OFFSET ${page * pageSize};`,
+    (err, data) => {
+      if (err || data.length === 0) {
+        console.log(err);
+        res.send([]);
+      } else {
+        res.send(data);
+      }
+    }
+  );
+};
+
+
+
 module.exports = {
   findReviewsByUser,
   findReviewsByRestaurant,
   findReviewsByRestaurantNameAndPostalCode,
+  findReviewById,
 };
