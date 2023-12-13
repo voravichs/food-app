@@ -137,10 +137,11 @@ const findBusinessReviews = (req, res) => {
   }
 
   connection.query(
-    `SELECT user_id, review_id, date, text, stars
-    FROM review
-    WHERE business_id = '${businessId}'
-    ORDER BY useful DESC, date DESC
+    `SELECT u.name, r.user_id, r.review_id, r.date, r.text, r.stars
+    FROM review r
+    JOIN user u ON u.user_id = r.user_id
+    WHERE r.business_id = '${businessId}'
+    ORDER BY r.useful DESC, date DESC
     LIMIT ${pageSize}
     OFFSET ${page * pageSize};`,
     (err, data) => {

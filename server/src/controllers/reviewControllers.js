@@ -11,9 +11,11 @@ const findReviewById = (req, res) => {
   }
 
   connection.query(
-    `SELECT *
-    FROM review
-    WHERE review_id = '${reviewId}';`,
+    `SELECT u.name AS reviewer, u.user_id, r.stars, r.text, r.date, r.useful, r.funny, r.cool, b.name AS business_name
+    FROM review r
+    JOIN user u ON u.user_id = r.user_id  
+    JOIN Business b on b.business_id = r.business_id
+    WHERE r.review_id = '${reviewId}';`,
     (err, data) => {
       if (err || data.length === 0) {
         console.log(`Error: ${err}`);

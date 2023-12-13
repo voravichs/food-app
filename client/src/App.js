@@ -1,42 +1,27 @@
-import "./css/App.css";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+// Pages
 import Home from './pages/Home'
-import Restaurant from './pages/Restaurant';
-import Review from "./pages/Review";
+import Results from './pages/Results'
+import Business from './pages/Business';
 import User from "./pages/User";
+import Review from "./pages/Review"
 
 function App() {
-  const [data, setData] = useState("");
-
-  useEffect(() => {
-    (async () => {
-      const res = await fetch("http://localhost:8080/");
-      const data = await res.json();
-      const { message } = data;
-      setData(message);
-    })();
-  }, []);
-
   return (
-    <div className="App">
-      <div>
-        <h1>
-          You should see "Welcome to "Underground Foodies" below if you are
-          successfully connected to the backend
-        </h1>
-        <h2>{data}</h2>
+      <div className='overflow-hidden'>
         <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/restaurant" element={<Restaurant />} />
-          <Route path="/review" element={<Review />} />
-          <Route path="/user" element={<User />} />
-        </Routes>
-      </BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/results" element={<Results />} />
+            <Route path="/business" element={<Business />} />
+            <Route path="/user" element={<User />} />
+            <Route path="/review" element={<Review />} />
+          </Routes>
+        </BrowserRouter>
       </div>
-    </div>
+
   );
 }
 
