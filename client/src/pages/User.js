@@ -8,6 +8,8 @@ export default function User() {
 
     const [userData, setUserData] = useState({});
     const [popularBusinessesData, setPopularBusinessesData] = useState([]);
+    const [pastVisitData, setPastVisitData] = useState([]);
+    const [recommendedBusinessData, setRecommendedBusinesses] = useState([]);
 
     // API Routes
     useEffect(() => {
@@ -22,9 +24,21 @@ export default function User() {
             .then(resJson => setPopularBusinessesData(resJson));
     }, [popularBusinessesData, userId]);
 
+    useEffect(() => {
+        fetch(`http://localhost:8080/api/users/${userId}/findPastVisits`)
+            .then(res => res.json())
+            .then(resJson => setPastVisitData(resJson));
+    }, [pastVisitData, userId]);
+
+    useEffect(() => {
+        fetch(`http://localhost:8080/api/users/${userId}/recommendedBusinesses`)
+            .then(res => res.json())
+            .then(resJson => setRecommendedBusinesses(resJson));
+    }, [recommendedBusinessData, userId]);
+
     // Redirects
-    function goToBusiness(business) {
-        navigate(`/business/?businessid=${business.business_id}`);
+    function goToBusiness(businessId) {
+        navigate(`/business/?businessid=${businessId}`);
     }
     
     return (
@@ -38,17 +52,37 @@ export default function User() {
            <p>fans: {userData.fans}</p> 
            <p>avg stars: {userData.average_stars}</p> 
            <div>
-                <p>Popular restaurants this user has visited:</p>
+                <h1 className="text-3xl">Popular restaurants this user has visited:</h1>
                 {popularBusinessesData.map(business =>
                     <div className="text-xl hover:cursor-pointer hover:text-2xl"
-                        onClick={() => goToBusiness(business)}>
+                        onClick={() => goToBusiness(business.business_id)}
+                        key={`${business.business_id}`}>
                         {business.name}
                     </div>
                 )}
            </div>
            <div>
-                <p>User Reviews</p>
-
+                <h1 className="text-3xl">User Reviews</h1>
+                {pastVisitData.map(review =>
+                    <div>
+                        <div className="text-xl hover:cursor-pointer hover:text-2xl"
+                            onClick={() => goToBusiness(review.business_id)}
+                            key={`${review.review_id}`}>
+                            {review.name}
+                        </div>
+                        <p>{review.text}</p>
+                    </div>
+                )}
+           </div>
+           <div>
+                <h1 className="text-3xl">Recommended Businesses from City User has been to most frequently</h1>
+                {recommendedBusinessData.map(business =>
+                    <div className="text-xl hover:cursor-pointer hover:text-2xl"
+                        onClick={() => goToBusiness(business.business_id)}
+                        key={`${business.business_id}`}>
+                        {business.name}
+                    </div>
+                )}
            </div>
         </div>
     );
