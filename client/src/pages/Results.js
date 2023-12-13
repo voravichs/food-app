@@ -6,13 +6,13 @@ export default function Results() {
     const location = useLocation();
     const namecat = new URLSearchParams(location.search).get("namecat");
     const state = new URLSearchParams(location.search).get("state");
+    const navigate = useNavigate();
     
     const [data, setData] = useState([]);
     const [page, setPage] = useState(1); 
     const [pageSize] = useState(10);
 
-    const navigate = useNavigate();
-
+    // API Routes
     useEffect(() => {
         const fetchData = async () => {
             let data = await fetch(`http://localhost:8080/api/businesses/?nameOrCategory=${namecat}&state=${state}&page=${page}&pageSize=${pageSize}`);
@@ -29,6 +29,7 @@ export default function Results() {
             .catch(console.error);
     }, [namecat, state, data, page, pageSize]);
 
+    // Page Navigation
     const nextPage = () => {
         setPage(page + 1);
     }
@@ -39,6 +40,7 @@ export default function Results() {
         }
     }
 
+    // Redirects
     function goToBusiness(business) {
         navigate(`/business/?businessid=${business.business_id}`);
     }
@@ -46,7 +48,8 @@ export default function Results() {
     return (
         <div>
             {data.map(business =>
-                <div className="text-3xl hover:cursor-pointer hover:text-4xl" onClick={() => goToBusiness(business)}
+                <div className="text-3xl hover:cursor-pointer hover:text-4xl" 
+                    onClick={() => goToBusiness(business)}
                     key={`${business.business_id}`}>
                         {business.name}
                 </div>

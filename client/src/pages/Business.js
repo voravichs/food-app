@@ -5,6 +5,7 @@ import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 export default function Business() {
     const location = useLocation();
     const businessId = new URLSearchParams(location.search).get("businessid");
+    const navigate = useNavigate();
 
     const [businessData, setBusinessData] = useState({});
     const [reviewData, setReviewData] = useState([]);
@@ -12,8 +13,7 @@ export default function Business() {
     const [page, setPage] = useState(1); 
     const [pageSize] = useState(5);
 
-    const navigate = useNavigate();
-
+    // API Routes
     useEffect(() => {
         fetch(`http://localhost:8080/api/businesses/${businessId}`)
           .then(res => res.json())
@@ -32,7 +32,7 @@ export default function Business() {
           .then(resJson => setRelatedBusinessData(resJson));
     }, [relatedBusinessData, businessId, page, pageSize]);
     
-    
+    // Page Navigation
     const nextPage = () => {
         setPage(page + 1);
     }
@@ -43,6 +43,7 @@ export default function Business() {
         }
     }
 
+    // Redirects
     function goToReview(review) {
         navigate(`/review/?reviewId=${review.review_id}`);
     }
@@ -56,8 +57,9 @@ export default function Business() {
             <div>
                 <h1>Reviews</h1>
                 {reviewData.map(review =>
-                    <div key={`${review.review_id}`} className="text-xl hover:cursor-pointer hover:text-2xl" 
-                        onClick={() => goToReview(review)}>
+                    <div className="text-xl hover:cursor-pointer hover:text-2xl" 
+                        onClick={() => goToReview(review)}
+                        key={`${review.review_id}`} >
                         <p>{review.name}</p>
                         <p>{review.text}</p>
                         <p>{review.stars}</p>
