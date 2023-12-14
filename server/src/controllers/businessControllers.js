@@ -215,6 +215,7 @@ const findRelatedBusinesses = (req, res) => {
       JOIN Business b ON rb.business_id = b.business_id
       JOIN geographical_location g ON rb.business_id = g.business_id
       JOIN count_above_avg_reviews_per_business c ON g.business_id = c.business_id
+    WHERE b.business_id != '${businessId}'
     ORDER BY b.stars DESC, b.review_count DESC
     LIMIT 5;`,
     (err, data) => {
