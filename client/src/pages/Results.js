@@ -27,7 +27,7 @@ export default function Results() {
 
         fetchData()
             .catch(console.error);
-    }, [namecat, state, data, page, pageSize]);
+    }, [namecat, page, pageSize, state]);
 
     // Page Navigation
     const nextPage = () => {

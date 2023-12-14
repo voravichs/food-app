@@ -13,7 +13,7 @@ export default function Review() {
         fetch(`http://localhost:8080/api/reviews/${reviewId}`)
           .then(res => res.json())
           .then(resJson => setData(resJson[0]));
-    }, [data, reviewId]);
+    }, [reviewId]);
 
     // Redirects
     function goToUser() {

@@ -7,7 +7,7 @@ export default function TopCities() {
         fetch(`http://localhost:8080/api/businesses/topCitiesByBusinessCount`)
           .then(res => res.json())
           .then(resJson => setData(resJson));
-    }, [data]);
+    }, []);
 
     return (
         <div>

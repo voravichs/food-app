@@ -16,25 +16,25 @@ export default function User() {
         fetch(`http://localhost:8080/api/users/${userId}`)
             .then(res => res.json())
             .then(resJson => setUserData(resJson[0]));
-    }, [userData, userId]);
+    }, [userId]);
 
     useEffect(() => {
         fetch(`http://localhost:8080/api/users/${userId}/popularBusinesses`)
             .then(res => res.json())
             .then(resJson => setPopularBusinessesData(resJson));
-    }, [popularBusinessesData, userId]);
+    }, [userId]);
 
     useEffect(() => {
         fetch(`http://localhost:8080/api/users/${userId}/findPastVisits`)
             .then(res => res.json())
             .then(resJson => setPastVisitData(resJson));
-    }, [pastVisitData, userId]);
+    }, [userId]);
 
     useEffect(() => {
         fetch(`http://localhost:8080/api/users/${userId}/recommendedBusinesses`)
             .then(res => res.json())
             .then(resJson => setRecommendedBusinesses(resJson));
-    }, [recommendedBusinessData, userId]);
+    }, [userId]);
 
     // Redirects
     function goToBusiness(businessId) {

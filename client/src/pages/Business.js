@@ -18,19 +18,19 @@ export default function Business() {
         fetch(`http://localhost:8080/api/businesses/${businessId}`)
           .then(res => res.json())
           .then(resJson => setBusinessData(resJson[0]));
-    }, [businessData, businessId]);
+    }, [businessId]);
 
     useEffect(() => {
         fetch(`http://localhost:8080/api/businesses/${businessId}/reviews/?page=${page}&pageSize=${pageSize}`)
           .then(res => res.json())
           .then(resJson => setReviewData(resJson));
-    }, [reviewData, businessId, page, pageSize]);
+    }, [businessId, page, pageSize]);
 
     useEffect(() => {
         fetch(`http://localhost:8080/api/businesses/${businessId}/relatedBusinesses`)
           .then(res => res.json())
           .then(resJson => setRelatedBusinessData(resJson));
-    }, [relatedBusinessData, businessId, page, pageSize]);
+    }, [businessId]);
     
     // Page Navigation
     const nextPage = () => {
