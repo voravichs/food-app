@@ -21,10 +21,8 @@ export default function Results() {
                 data = await fetch(`http://localhost:8080/api/businesses/?nameOrCategory=${namecat}&state=${state}`);
                 json = await data.json();
             }
-
             setData(json)
         }
-
         fetchData()
             .catch(console.error);
     }, [namecat, page, pageSize, state]);
