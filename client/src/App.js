@@ -4,11 +4,7 @@ import Favicon from "react-favicon";
 import favicon from './images/favicon.ico'
 
 // Pages
-import Home from './pages/Home'
-import Results from './pages/Results'
-import Business from './pages/Business';
-import User from "./pages/User";
-import Review from "./pages/Review"
+import {Home, Results, Business, User, Review, Layout, NoPage} from './pages'
 
 function App() {
   return (
@@ -17,10 +13,13 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/results" element={<Results />} />
-            <Route path="/business" element={<Business />} />
-            <Route path="/user" element={<User />} />
-            <Route path="/review" element={<Review />} />
+            <Route path="/" element={<Layout/>}>
+              <Route path="results" element={<Results />} />
+              <Route path="business" element={<Business />} />
+              <Route path="user" element={<User />} />
+              <Route path="review" element={<Review />} />
+              <Route path="*" element={<NoPage />} />
+            </Route>
           </Routes>
         </BrowserRouter>
       </div>

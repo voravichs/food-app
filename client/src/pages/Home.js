@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import logo from '../images/logo.png'
 
 import TopCities from '../components/TopCities'
+import Footer from '../components/Footer'
 
 export default function Home() {
     const [searchNameCatInput, setSearchNameCatInput] = useState("");
@@ -22,6 +23,13 @@ export default function Home() {
     };
 
     // Redirects
+    function checkEnter(e) {
+        if(e.key === "Enter") {
+            goToResults();
+        }
+
+    }
+
     function goToResults() {
         if (searchNameCatInput === "" || searchStateInput === "") {
             setSearchConfirm("Please enter both a name/category and a state!");
@@ -33,7 +41,7 @@ export default function Home() {
 
     return (
         <div className="flex flex-col w-screen">
-            <div className='container mx-auto my-16'>
+            <div className='container mx-auto mt-16 mb-24'>
                 {/* Logo */}
                 <div className="flex-center mb-8">
                     <img className='w-2/3' 
@@ -42,9 +50,12 @@ export default function Home() {
                 </div>
                 
                 {/* Search Bars */}
-                <div className="w-3/4 mx-auto bg-slate-400 dark:bg-slate-600 py-12 rounded-lg mb-16">
+                <div className="w-3/4 mx-auto bg-slate-400 dark:bg-slate-600 py-12 rounded-lg mb-16"
+                    onKeyUp={(e) => checkEnter(e)}>
                     <div className="flex-center mb-8">
-                        <h1 className="text-2xl text-neutral-800 font-bold dark:text-neutral-200"> Search for Restaurants</h1>
+                        <h1 className="text-2xl text-neutral-800 font-bold dark:text-neutral-200"> 
+                            Search for Restaurants
+                        </h1>
                     </div>
                     <div className="relative mb-4 w-2/3 mx-auto">
                         <FaSearch className='absolute m-3 text-xl pointer-events-none fill-neutral-400 dark:fill-neutral-300' />
@@ -93,6 +104,7 @@ export default function Home() {
                     <TopCities/>
                 </div>
             </div>
+            <Footer/>
         </div>
     );
 }
