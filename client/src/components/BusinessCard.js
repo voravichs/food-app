@@ -1,22 +1,22 @@
 import { FaStar } from "react-icons/fa";
 import { motion } from "framer-motion"
 
-export default function CityCard({city}) {
-
+export default function BusinessCard({business}) {
+    
     let starList = [];
-    let stars = Math.round(city.avg_stars)
+    let stars = Math.round(business.stars)
     for (let i = 0; i < stars; i++) {
         starList.push({
-            star: <FaStar className='text-yellow-500' key={`${i}${city.city}`} />
+            star: <FaStar className='text-yellow-500' key={`${i}${business.business_id}`} />
         })
     }
     for (let i = stars; i < 5; i++) {
         starList.push({
-            star: <FaStar className='text-white' key={`${i}${city.city}`} />
+            star: <FaStar className='text-white' key={`${i}${business.business_id}`} />
         })
     }
 
-    let existStars = city.avg_stars;
+    let existStars = business.stars;
     if (!existStars) {
         existStars = "N/A"
     } else {
@@ -26,15 +26,15 @@ export default function CityCard({city}) {
     return (
         <motion.div className="block p-8 w-96 md:w-full
             border border-gray-200 rounded-lg shadow-xl 
-            bg-slate-400 dark:bg-slate-700"
+            bg-slate-400 dark:bg-slate-700 h-48 "
             initial={{scale: 0}}
             animate={{scale: 1}}
             transition={{duration: 0.25, ease: "easeOut"}}>
-            <h1 className="mb-2 text-2xl text-neutral-800 dark:text-neutral-200 font-bold ">
-                {city.city}, {city.state}
+            <h1 className="text-2xl text-neutral-800 dark:text-neutral-200 font-bold ">
+                {business.name}
             </h1>
-            <p className="font-normal text-gray-800 dark:text-gray-300 mb-2">
-                Business Count: {city.business_count}
+            <p className="text-lg text-neutral-800 dark:text-neutral-200">
+                {business.city}, {business.state}
             </p>
             <div className="flex text-2xl text-gray-800 dark:text-gray-300">
                 {starList.map(item => (

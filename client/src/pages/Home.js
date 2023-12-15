@@ -1,7 +1,8 @@
-import { FaSearch, FaRegGem  } from "react-icons/fa";
-import React, { useState } from "react";
+import { FaSearch, FaRegGem } from "react-icons/fa";
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import logo from '../images/logo.png'
+import { motion } from "framer-motion"
 
 import TopCities from '../components/TopCities'
 import Footer from '../components/Footer'
@@ -33,18 +34,22 @@ export default function Home() {
     function goToResults() {
         if (searchNameCatInput === "" || searchStateInput === "") {
             setSearchConfirm("Please enter both a name/category and a state!");
+        } else if (!(searchStateInput.length === 2)) {
+            setSearchConfirm("Please enter a valid two-letter state abbreviation!");
         } else {
             navigate(`/results/?namecat=${searchNameCatInput}&state=${searchStateInput}`);
-        }
-        
+        }      
     }
 
     return (
-        <div className="flex flex-col w-screen">
+        <motion.div className="flex flex-col w-screen"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.25, ease: "easeOut" }}>
             <div className='container mx-auto mt-16 mb-24'>
                 {/* Logo */}
                 <div className="flex-center mb-8">
-                    <img className='w-2/3' 
+                    <img className='w-2/3 lg:w-1/2' 
                         src={`${logo}`}
                         alt='Site logo' />
                 </div>
@@ -67,8 +72,7 @@ export default function Home() {
                             placeholder="Name or Category (i.e. pizza)" 
                             aria-label="Search"
                             onChange={handleNameCatChange}
-                            value={searchNameCatInput}/>
-                            
+                            value={searchNameCatInput}/>                    
                     </div>
                     <div className="mb-4 w-2/3 mx-auto">
                         <div className="relative mb-4 flex w-full flex-wrap items-stretch">
@@ -105,6 +109,6 @@ export default function Home() {
                 </div>
             </div>
             <Footer/>
-        </div>
+        </motion.div>
     );
 }
