@@ -1,5 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Favicon from "react-favicon";
+import favicon from './images/favicon.ico'
 
 // Pages
 import Home from './pages/Home'
@@ -11,6 +13,7 @@ import Review from "./pages/Review"
 function App() {
   return (
       <div className='overflow-hidden'>
+        <Favicon url={favicon} />
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />} />
