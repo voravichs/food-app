@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { FaRegLightbulb, FaRegLaughSquint  } from "react-icons/fa";
+import { FaRegLightbulb, FaRegLaughSquint, FaArrowLeft, FaArrowRight  } from "react-icons/fa";
 import { BsChatLeftText, BsEmojiSunglasses } from "react-icons/bs";
 import { SlUserFollow } from "react-icons/sl";
 import { FaStar } from "react-icons/fa";
@@ -31,6 +31,8 @@ export default function User() {
     const [pastVisitData, setPastVisitData] = useState([]);
     const [recommendedBusinessData, setRecommendedBusinesses] = useState([]);
     const [loadedUser, setLoadedUser] = useState(false); 
+    const [page, setPage] = useState(1); 
+    const [pageSize] = useState(5);
     const [loadedPopBusinesses, setLoadedPopBusinesses] = useState(false); 
     const [loadedPastVisitData, setLoadedPastVisitData] = useState(false); 
     const [loadedRecomBusinesses, setLoadedRecomBusinesses] = useState(false); 
@@ -64,14 +66,18 @@ export default function User() {
 
     useEffect(() => {
         const fetchData = async () => {
-            let data = await fetch(`http://localhost:8080/api/users/${userId}/findPastVisits`);
+            let data = await fetch(`http://localhost:8080/api/users/${userId}/findPastVisits/?page=${page}&pageSize=${pageSize}`);
             let json = await data.json();
+            if (json.length < 10) {
+                data = await fetch(`http://localhost:8080/api/users/${userId}/findPastVisits`);
+                json = await data.json();
+            }
             setLoadedPastVisitData(true);
             setPastVisitData(json);
         }
         fetchData()
             .catch(console.error);
-    }, [userId]);
+    }, [page, pageSize, userId]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -83,6 +89,17 @@ export default function User() {
         fetchData()
             .catch(console.error);
     }, [userId]);
+
+    // Page Navigation
+    const nextPage = () => {
+        setPage(page + 1);
+    }
+
+    const prevPage = () => {
+        if (page - 1 > 0) {
+            setPage(page - 1);
+        }
+    }
 
     return (
         <div className="mx-16">
@@ -144,6 +161,10 @@ export default function User() {
                     {pastVisitData.map(review =>
                         <ReviewCard key={`${review.review_id}`} review={review}/>
                     )}
+                     <div className="flex-center mt-8">
+                        <FaArrowLeft className="text-5xl mr-4 hover:cursor-pointer" onClick={prevPage}/>
+                        <FaArrowRight className="text-5xl hover:cursor-pointer" onClick={nextPage}/>
+                    </div>
                 </div>
                 : <Loading text="User Reviews"/>
             }

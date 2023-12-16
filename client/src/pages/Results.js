@@ -50,6 +50,7 @@ export default function Results() {
 
     return (
         <div className="mx-8">
+            <h1 className="text-3xl font-bold flex-center mb-8"> Showing Results for "{namecat}" in the state "{state}"</h1>
             {loaded 
                 ?
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl-grid-cols-5 gap-4 justify-items-stretch">

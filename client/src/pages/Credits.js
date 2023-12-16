@@ -1,5 +1,9 @@
-import emptyProfile from "../images/blankprofile.png"
 import yelplogo from "../images/yelplogo.png"
+import voravich from "../images/profilepics/voravich.jpg"
+import ken from "../images/profilepics/ken.jpg"
+import peici from "../images/profilepics/peici.jpg"
+import antina from "../images/profilepics/antina.jpg"
+
 
 /**
  * Credits Page
@@ -11,7 +15,7 @@ export default function Credits() {
                 <h1 className="text-4xl font-bold mb-4">Authors</h1>
                 <a className="flex mb-4 group hover:cursor-pointer"
                     href="https://github.com/voravichs">
-                    <img src={`${emptyProfile}`} alt="empty profile"
+                    <img src={`${voravich}`} alt="empty profile"
                         className="w-20 rounded-lg mr-4"/>
                     <p className="text-3xl group-hover:underline" >
                         Voravich Silapachairueng
@@ -19,7 +23,7 @@ export default function Credits() {
                 </a>
                 <a className="flex mb-4 group hover:cursor-pointer"
                     href="https://github.com/yamakenth">
-                    <img src={`${emptyProfile}`} alt="empty profile"
+                    <img src={`${ken}`} alt="empty profile"
                         className="w-20 rounded-lg mr-4"/>
                     <p className="text-3xl group-hover:underline" >
                         Ken Yamada
@@ -27,7 +31,7 @@ export default function Credits() {
                 </a>
                 <a className="flex mb-4 group hover:cursor-pointer"
                     href="https://github.com/antinayeh">
-                    <img src={`${emptyProfile}`} alt="empty profile"
+                    <img src={`${antina}`} alt="empty profile"
                         className="w-20 rounded-lg mr-4"/>
                     <p className="text-3xl group-hover:underline" >
                         Antina Yeh
@@ -35,7 +39,7 @@ export default function Credits() {
                 </a>
                 <a className="flex mb-4 group hover:cursor-pointer"
                     href="https://github.com/peiciqiu">
-                    <img src={`${emptyProfile}`} alt="empty profile"
+                    <img src={`${peici}`} alt="empty profile"
                         className="w-20 rounded-lg mr-4"/>
                     <p className="text-3xl group-hover:underline" >
                         Peici Qiu
