@@ -20,11 +20,19 @@ app.use("/api/businesses", routes.businesses);
 app.use("/api/reviews", routes.reviews);
 app.use("/api/users", routes.users);
 
-app.use(errorHandler);
+if (process.env.NODE_ENV === "production") {
+  const __dirname1 = path.resolve();
+  app.use(express.static(path.join(__dirname1, "/client/build")));
+  app.get("*", (_req, res) =>
+    res.sendFile(path.resolve(__dirname1, "client", "build", "index.html"))
+  );
+} else {
+  app.get("/", (_req, res) => {
+    res.send({ message: "Welcome to Underground Foodies" });
+  });
+}
 
-app.get("/", (_req, res) => {
-  res.send({ message: "Welcome to Underground Foodies" });
-});
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);

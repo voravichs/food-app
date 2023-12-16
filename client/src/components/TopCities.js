@@ -14,7 +14,7 @@ export default function TopCities() {
     // API Routes
     useEffect(() => {
         const fetchData = async () => {
-            let data = await fetch(`http://localhost:8080/api/businesses/topCitiesByBusinessCount`);
+            let data = await fetch(`/api/businesses/topCitiesByBusinessCount`);
             let json = await data.json();
             setLoaded(true);
             setData(json)

@@ -24,10 +24,10 @@ export default function Results() {
     // API Routes
     useEffect(() => {
         const fetchData = async () => {
-            let data = await fetch(`http://localhost:8080/api/businesses/?nameOrCategory=${namecat}&state=${state}&page=${page}&pageSize=${pageSize}`);
+            let data = await fetch(`/api/businesses/?nameOrCategory=${namecat}&state=${state}&page=${page}&pageSize=${pageSize}`);
             let json = await data.json();
             if (json.length < 10) {
-                data = await fetch(`http://localhost:8080/api/businesses/?nameOrCategory=${namecat}&state=${state}`);
+                data = await fetch(`/api/businesses/?nameOrCategory=${namecat}&state=${state}`);
                 json = await data.json();
             }
             setLoaded(true);

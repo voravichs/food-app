@@ -30,7 +30,7 @@ export default function Business() {
     // API Routes
     useEffect(() => {
         const fetchData = async () => {
-            let data = await fetch(`http://localhost:8080/api/businesses/${businessId}`);
+            let data = await fetch(`/api/businesses/${businessId}`);
             let json = await data.json();
             setLoadedBusiness(true);
             setBusinessData(json[0]);
@@ -41,7 +41,7 @@ export default function Business() {
 
     useEffect(() => {
         const fetchData = async () => {
-            let data = await fetch(`http://localhost:8080/api/businesses/${businessId}/reviews/?page=${page}&pageSize=${pageSize}`);
+            let data = await fetch(`/api/businesses/${businessId}/reviews/?page=${page}&pageSize=${pageSize}`);
             let json = await data.json();
             setLoadedBusinessReviews(true);
             setReviewData(json);
@@ -55,7 +55,7 @@ export default function Business() {
 
     useEffect(() => {
         const fetchData = async () => {
-            let data = await fetch(`http://localhost:8080/api/businesses/${businessId}/relatedBusinesses`);
+            let data = await fetch(`/api/businesses/${businessId}/relatedBusinesses`);
             let json = await data.json();
             setLoadedRelatedBusinesses(true);
             setRelatedBusinessData(json);
