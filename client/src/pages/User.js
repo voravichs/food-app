@@ -1,89 +1,160 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { FaRegLightbulb, FaRegLaughSquint  } from "react-icons/fa";
+import { BsChatLeftText, BsEmojiSunglasses } from "react-icons/bs";
+import { SlUserFollow } from "react-icons/sl";
+import { FaStar } from "react-icons/fa";
+
+import BusinessCard from "../components/BusinessCard";
+import emptyProfile from "../images/blankprofile.png"
+import Loading from "../components/Loading";
+import ReviewCard from "../components/ReviewCard";
+
+let months = [
+    "Jan.", "Feb.", "Mar.", "Apr.", "May.", "Jun.",
+    "Jul.", "Aug.", "Sep.", "Oct.", "Nov.", "Dec.",
+]
 
 export default function User() {
     const location = useLocation();
     const userId = new URLSearchParams(location.search).get("userId");
-    const navigate = useNavigate();
 
     const [userData, setUserData] = useState({});
     const [popularBusinessesData, setPopularBusinessesData] = useState([]);
     const [pastVisitData, setPastVisitData] = useState([]);
     const [recommendedBusinessData, setRecommendedBusinesses] = useState([]);
+    const [loadedUser, setLoadedUser] = useState(false); 
+    const [loadedPopBusinesses, setLoadedPopBusinesses] = useState(false); 
+    const [loadedPastVisitData, setLoadedPastVisitData] = useState(false); 
+    const [loadedRecomBusinesses, setLoadedRecomBusinesses] = useState(false); 
+    const [yearMonthDay, setYearMonthDay] = useState([]); 
+    const [timestamp, setTimestamp] = useState(); 
 
     // API Routes
     useEffect(() => {
-        fetch(`http://localhost:8080/api/users/${userId}`)
-            .then(res => res.json())
-            .then(resJson => setUserData(resJson[0]));
+        const fetchData = async () => {
+            let data = await fetch(`http://localhost:8080/api/users/${userId}`);
+            let json = await data.json();
+            setLoadedUser(true);
+            setUserData(json[0]);
+            setYearMonthDay(json[0].yelping_since.split("T")[0].split("-"))
+            setTimestamp(json[0].yelping_since.split("T")[1].split(".")[0])
+        }
+        fetchData()
+            .catch(console.error);
     }, [userId]);
 
     useEffect(() => {
-        fetch(`http://localhost:8080/api/users/${userId}/popularBusinesses`)
-            .then(res => res.json())
-            .then(resJson => setPopularBusinessesData(resJson));
+        const fetchData = async () => {
+            let data = await fetch(`http://localhost:8080/api/users/${userId}/popularBusinesses`);
+            let json = await data.json();
+            setLoadedPopBusinesses(true);
+            setPopularBusinessesData(json);
+        }
+        fetchData()
+            .catch(console.error);
     }, [userId]);
 
     useEffect(() => {
-        fetch(`http://localhost:8080/api/users/${userId}/findPastVisits`)
-            .then(res => res.json())
-            .then(resJson => setPastVisitData(resJson));
+        const fetchData = async () => {
+            let data = await fetch(`http://localhost:8080/api/users/${userId}/findPastVisits`);
+            let json = await data.json();
+            setLoadedPastVisitData(true);
+            setPastVisitData(json);
+        }
+        fetchData()
+            .catch(console.error);
     }, [userId]);
 
     useEffect(() => {
-        fetch(`http://localhost:8080/api/users/${userId}/recommendedBusinesses`)
-            .then(res => res.json())
-            .then(resJson => setRecommendedBusinesses(resJson));
+        const fetchData = async () => {
+            let data = await fetch(`http://localhost:8080/api/users/${userId}/recommendedBusinesses`);
+            let json = await data.json();
+            setLoadedRecomBusinesses(true);
+            setRecommendedBusinesses(json);
+        }
+        fetchData()
+            .catch(console.error);
     }, [userId]);
 
-    // Redirects
-    function goToBusiness(businessId) {
-        navigate(`/business/?businessid=${businessId}`);
-    }
-    
     return (
-        <div>
-           <p>name: {userData.name}</p> 
-           <p>review count: {userData.review_count}</p> 
-           <p>yelping since: {userData.yelping_since}</p> 
-           <p>useful reviews: {userData.useful}</p> 
-           <p>funny reviews: {userData.funny}</p> 
-           <p>cool reviews: {userData.cool}</p> 
-           <p>fans: {userData.fans}</p> 
-           <p>avg stars: {userData.average_stars}</p> 
-           <div>
-                <h1 className="text-3xl">Popular restaurants this user has visited:</h1>
-                {popularBusinessesData.map(business =>
-                    <div className="text-xl hover:cursor-pointer hover:text-2xl"
-                        onClick={() => goToBusiness(business.business_id)}
-                        key={`${business.business_id}`}>
-                        {business.name}
-                    </div>
-                )}
-           </div>
-           <div>
-                <h1 className="text-3xl">User Reviews</h1>
-                {pastVisitData.map(review =>
-                    <div>
-                        <div className="text-xl hover:cursor-pointer hover:text-2xl"
-                            onClick={() => goToBusiness(review.business_id)}
-                            key={`${review.review_id}`}>
-                            {review.name}
+        <div className="mx-16">
+            {loadedUser 
+                ?
+                <div className="mb-8">
+                    <div className="flex mb-4">
+                        <img src={`${emptyProfile}`} alt="empty profile"
+                            className="w-28 rounded-lg mr-4"/>
+                        <div className="flex flex-col" >
+                            <p className="text-4xl">{userData.name}</p>
+                            <p className="text-sm">yelping since: </p> 
+                            <p className="text-sm">
+                                {`${months[yearMonthDay[1] - 1]}`} {yearMonthDay[2]}, {yearMonthDay[0]}, {timestamp}
+                            </p>
                         </div>
-                        <p>{review.text}</p>
                     </div>
-                )}
-           </div>
-           <div>
-                <h1 className="text-3xl">Recommended Businesses from City User has been to most frequently</h1>
-                {recommendedBusinessData.map(business =>
-                    <div className="text-xl hover:cursor-pointer hover:text-2xl"
-                        onClick={() => goToBusiness(business.business_id)}
-                        key={`${business.business_id}`}>
-                        {business.name}
+                    <div className="flex gap-2 text-neutral-800 dark:text-neutral-200 mb-2">
+                        <p className="flex rounded-md bg-slate-700 py-2 px-4">
+                            <BsChatLeftText className="text-2xl mr-2"/> Reviews <span className="font-bold ml-2"> {userData.review_count}</span>
+                        </p>    
+                        <p className="flex rounded-md bg-slate-700 py-2 px-4">
+                            <FaRegLightbulb className="text-2xl text-yellow-100 mr-2"/> Useful <span className="font-bold ml-2"> {userData.useful}</span>
+                        </p>  
+                        <p className="flex rounded-md bg-slate-700 py-2 px-4">
+                            <FaRegLaughSquint className="text-2xl text-emerald-200 mr-2"/> Funny <span className="font-bold ml-2"> {userData.funny}</span>
+                        </p> 
+                        <p className="flex rounded-md bg-slate-700 py-2 px-4">
+                            <BsEmojiSunglasses className="text-2xl text-red-200 mr-2"/> Cool <span className="font-bold ml-2"> {userData.cool}</span>
+                        </p> 
                     </div>
-                )}
-           </div>
+                    <p className="flex rounded-md bg-slate-700 py-2 px-4 text-neutral-800 dark:text-neutral-200 w-32 mb-2">
+                        <SlUserFollow className="text-2xl mr-2"/> Fans <span className="font-bold ml-2"> {userData.fans}</span>
+                    </p> 
+                    <p className="flex rounded-md bg-slate-700 py-2 px-4 text-neutral-800 dark:text-neutral-200 w-56 mb-2">
+                        <FaStar className="text-2xl mr-2 text-yellow-500"/> Average Rating <span className="font-bold ml-2"> {userData.average_stars}</span>
+                    </p> 
+                </div>
+                : <Loading text="User"/>
+            }
+            
+           {loadedPopBusinesses 
+                ?
+                <div className="mb-8">
+                    <h1 className="text-3xl font-bold mb-4">Popular restaurants this user has visited:</h1>
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl-grid-cols-5 justify-items-stretch">
+                        {popularBusinessesData.map(business =>
+                            <BusinessCard key={`${business.business_id}`} business={business}/>
+                        )}    
+                    </div>
+                </div>
+                : <Loading text="Popular Businesses"/>
+           }
+           
+           {loadedPastVisitData
+                ?
+                <div className="flex flex-col gap-4 mb-8">
+                    <h1 className="text-3xl font-bold mb-4">User Reviews</h1>
+                    {pastVisitData.map(review =>
+                        <ReviewCard key={`${review.review_id}`} review={review}/>
+                    )}
+                </div>
+                : <Loading text="User Reviews"/>
+            }
+           
+           {loadedRecomBusinesses
+                ?
+                <div>
+                    <h1 className="text-3xl font-bold mb-4">Recommended Businesses from the city {userData.name} has been to most frequently</h1>
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl-grid-cols-5 justify-items-stretch">
+                        {recommendedBusinessData.map(business =>
+                            <BusinessCard key={`recommend-${business.business_id}`} business={business}/>
+                        )}                    
+                    </div>
+
+                </div>
+                : <Loading text="Recommended Businesses"/>
+            }
+           
         </div>
     );
 }

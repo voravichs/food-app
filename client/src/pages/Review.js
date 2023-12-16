@@ -30,8 +30,8 @@ export default function Review() {
             let json = await data.json();
             setLoaded(true);
             setData(json[0]);
-            setYearMonthDay(json[0].date.split("T")[0].split("-"))
-            setTimestamp(json[0].date.split("T")[1].split(".")[0])
+            setYearMonthDay(json[0].date.split("T")[0].split("-"));
+            setTimestamp(json[0].date.split("T")[1].split(".")[0]);
         }
         fetchData()
             .catch(console.error);
@@ -83,13 +83,13 @@ export default function Review() {
                     <p className="mb-4">{data.text}</p>
                     <div className="flex gap-2">
                         <p className="flex rounded-md bg-slate-700 py-1 px-4">
-                            <FaRegLightbulb className="text-2xl mr-2"/> Useful <span className="font-bold ml-1"> {data.useful}</span>
+                            <FaRegLightbulb className="text-2xl text-yellow-100 mr-2"/> Useful <span className="font-bold ml-1"> {data.useful}</span>
                         </p>
                         <p className="flex rounded-md bg-slate-700 py-1 px-4">
-                            <FaRegLaughSquint className="text-2xl mr-2"/> Funny <span className="font-bold ml-1"> {data.funny}</span>
+                            <FaRegLaughSquint className="text-2xl text-emerald-200 mr-2 "/> Funny <span className="font-bold ml-1"> {data.funny}</span>
                         </p>
                         <p className="flex rounded-md bg-slate-700 py-1 px-4">
-                            <BsEmojiSunglasses className="text-2xl mr-2"/> Cool <span className="font-bold ml-1"> {data.cool}</span>
+                            <BsEmojiSunglasses className="text-2xl text-red-200 mr-2 "/> Cool <span className="font-bold ml-1"> {data.cool}</span>
                         </p>
                     </div>        
                 </motion.div>  
