@@ -46,12 +46,12 @@ export default function Results() {
         <div className="mx-8">
             {loaded 
                 ?
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl-grid-cols-5 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl-grid-cols-5 gap-4 justify-items-stretch">
                     {data.map(business =>
                         <BusinessCard key={`${business.business_id}`} business={business}/>
                     )}
                 </div>
-                :<Loading text="Business"/>
+                : <Loading text="Business"/>
             }
             <div className="flex-center mt-8">
                 <FaArrowLeft className="text-5xl mr-4 hover:cursor-pointer" onClick={prevPage}/>

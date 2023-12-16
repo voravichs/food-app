@@ -1,8 +1,20 @@
 import { motion } from "framer-motion"
 import { useNavigate } from "react-router-dom";
 
+import { starListMaker } from "../util/StarList";
+
 export default function ReviewCard({review}) {
     const navigate = useNavigate();
+
+    // Stars
+    let starList = starListMaker(review.stars, review.review_id);
+    let existStars = review.stars;
+    if (!existStars) {
+        existStars = "N/A"
+    } else {
+        existStars += " stars"
+    }
+
 
     // Redirects
     function goToReview(review) {
@@ -20,9 +32,13 @@ export default function ReviewCard({review}) {
                 animate={{scale: 1}}
                 transition={{duration: 0.5, ease: "easeInOut"}}>
                 <div className="flex flex-col items-center justify-center">
-                    <p className="">{review.name}</p>
-                    <p>Rating: </p>
-                    <p>{review.stars}</p>
+                    <p className="font-bold mb-2">{review.name}</p>
+                    <p className="flex text-2xl">
+                        {starList.map(item => (
+                            item.star
+                        ))}
+                    </p>
+                    <p>{existStars}</p>
                 </div>    
                 <p className="row-span-2 md:col-span-2">{review.text}</p>
             </motion.div>

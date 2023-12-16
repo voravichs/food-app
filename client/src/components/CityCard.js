@@ -1,21 +1,11 @@
-import { FaStar } from "react-icons/fa";
 import { motion } from "framer-motion"
 
+import { starListMaker } from "../util/StarList";
+
 export default function CityCard({city}) {
-
-    let starList = [];
-    let stars = Math.round(city.avg_stars)
-    for (let i = 0; i < stars; i++) {
-        starList.push({
-            star: <FaStar className='text-yellow-500' key={`${i}${city.city}`} />
-        })
-    }
-    for (let i = stars; i < 5; i++) {
-        starList.push({
-            star: <FaStar className='text-white' key={`${i}${city.city}`} />
-        })
-    }
-
+    
+    // Stars
+    let starList = starListMaker(city.avg_stars, city.city);
     let existStars = city.avg_stars;
     if (!existStars) {
         existStars = "N/A"
@@ -27,7 +17,7 @@ export default function CityCard({city}) {
         <motion.div className="block p-8 w-96 md:w-full
             border border-gray-200 rounded-lg shadow-xl 
             bg-slate-400 dark:bg-slate-700"
-            initial={{scale: 0.25}}
+            initial={{scale: 0}}
             animate={{scale: 1}}
             transition={{duration: 0.5, ease: "easeOut"}}>
             <h1 className="mb-2 text-2xl text-neutral-800 dark:text-neutral-200 font-bold ">

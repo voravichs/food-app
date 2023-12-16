@@ -20,7 +20,6 @@ export default function Business() {
     const [loadedRelatedBusinesses, setLoadedRelatedBusinesses] = useState(false); 
 
     // API Routes
-    
     useEffect(() => {
         const fetchData = async () => {
             let data = await fetch(`http://localhost:8080/api/businesses/${businessId}`);
