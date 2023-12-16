@@ -1,7 +1,10 @@
 import icon from '../images/icon.png'
 import github from '../images/githublight.png'
 
-export default function Results() {
+/**
+ * Footer Component
+ */
+export default function Footer() {
     return (
         <div className="h-36 px-40 py-4
             grid grid-cols-3 place-items-center 
@@ -12,7 +15,7 @@ export default function Results() {
                     alt='Footer Site Logo'/>
             </a> 
             <a className='text-2xl text-neutral-800 dark:text-neutral-200'
-                href='/'>
+                href='/credits'>
                 Credits
             </a>
             <a href='https://github.com/voravichs/underground-foodies'>

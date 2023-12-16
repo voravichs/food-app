@@ -1,3 +1,7 @@
+/**
+ * Loading component to display while waiting for fetches
+ * @param {*} text text to display during loading
+ */
 export default function Loading({text}) {
     return (
         <div className="text-xl">

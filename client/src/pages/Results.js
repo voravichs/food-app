@@ -2,14 +2,20 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
+// Components
 import BusinessCard from "../components/BusinessCard";
 import Loading from "../components/Loading";
 
+/**
+ * Search Results Page 
+ */
 export default function Results() {
+    // Location Handling from URL Param
     const location = useLocation();
     const namecat = new URLSearchParams(location.search).get("namecat");
     const state = new URLSearchParams(location.search).get("state");
     
+    // States
     const [data, setData] = useState([]);
     const [page, setPage] = useState(1); 
     const [pageSize] = useState(12);

@@ -1,3 +1,6 @@
+/**
+ * 404 Page
+ */
 export default function NoPage() {
     return (
         <div className="mx-8 flex-center">

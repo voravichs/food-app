@@ -2,14 +2,20 @@ import React, { useState, useEffect, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 import { FaArrowLeft, FaArrowRight, FaStar } from "react-icons/fa";
 
+// components
 import BusinessCard from "../components/BusinessCard";
 import ReviewCard from "../components/ReviewCard";
 import Loading from "../components/Loading";
 
+/**
+ * Business Page
+ */
 export default function Business() {
+    // Location Handling from URL Param
     const location = useLocation();
     const businessId = new URLSearchParams(location.search).get("businessid");
 
+    // States
     const [businessData, setBusinessData] = useState({});
     const [reviewData, setReviewData] = useState([]);
     const [relatedBusinessData, setRelatedBusinessData] = useState([]);
@@ -18,6 +24,8 @@ export default function Business() {
     const [loadedBusiness, setLoadedBusiness] = useState(false); 
     const [loadedBusinessReviews, setLoadedBusinessReviews] = useState(false); 
     const [loadedRelatedBusinesses, setLoadedRelatedBusinesses] = useState(false); 
+    const [emptyReviews, setEmptyReviews] = useState(false);
+    const [emptyRelatedBusinesses, setEmptyRelatedBusinesses] = useState(false);
 
     // API Routes
     useEffect(() => {
@@ -36,7 +44,10 @@ export default function Business() {
             let data = await fetch(`http://localhost:8080/api/businesses/${businessId}/reviews/?page=${page}&pageSize=${pageSize}`);
             let json = await data.json();
             setLoadedBusinessReviews(true);
-            setReviewData(json)
+            setReviewData(json);
+            if (json.length === 0) {
+                setEmptyReviews(true);
+            }
         }
         fetchData()
             .catch(console.error);
@@ -47,7 +58,10 @@ export default function Business() {
             let data = await fetch(`http://localhost:8080/api/businesses/${businessId}/relatedBusinesses`);
             let json = await data.json();
             setLoadedRelatedBusinesses(true);
-            setRelatedBusinessData(json)
+            setRelatedBusinessData(json);
+            if (json.length === 0) {
+                setEmptyRelatedBusinesses(true);
+            }
         }
         fetchData()
             .catch(console.error);
@@ -64,7 +78,7 @@ export default function Business() {
         }
     }
 
-    // Stars
+    // Unique Starlist implementation
     const starList = useMemo(() => {
         let starList = [];
         let stars = Math.round(businessData.stars)
@@ -108,24 +122,35 @@ export default function Business() {
                     <p className="text-xl text-neutral-800 mb-4">
                         {businessData.categories}
                     </p>
-                </div>
+                </div>    
                 : <Loading text="Business"/>
             }
 
             {/* Reviews for Business */}
             {loadedBusinessReviews 
                 ?
-                <div className="mb-8">
-                    <h1 className="text-3xl text-neutral-700 font-bold">Reviews</h1>
-                    <div className="flex-center mb-4">
-                        <FaArrowLeft className="text-5xl mr-4 hover:cursor-pointer" onClick={prevPage}/>
-                        <FaArrowRight className="text-5xl hover:cursor-pointer" onClick={nextPage}/>
-                    </div>      
-                    <div className="flex flex-col gap-4 mb-4">
-                        {reviewData.map(review =>
-                            <ReviewCard key={`${review.review_id}`} review={review}/>
-                        )}
-                    </div>              
+                <div>
+                    <h1 className="text-3xl text-neutral-700 font-bold mb-4">Reviews</h1>
+                    {/* Case for No Reviews */}
+                    {emptyReviews
+                        ? 
+                        <div className="text-2xl mb-8 flex-center">
+                            No Reviews Available
+                        </div>
+                        :
+                        <div className="mb-8">
+                            <div className="flex-center mb-4">
+                                <FaArrowLeft className="text-5xl mr-4 hover:cursor-pointer" onClick={prevPage}/>
+                                <FaArrowRight className="text-5xl hover:cursor-pointer" onClick={nextPage}/>
+                            </div>      
+                            <div className="flex flex-col gap-4 mb-4">
+                                {reviewData.map(review =>
+                                    <ReviewCard key={`${review.review_id}`} review={review}/>
+                                )}
+                            </div>              
+                        </div>
+                    }
+                    
                 </div>
                 : <Loading text="Business Reviews"/>
             }
@@ -137,11 +162,19 @@ export default function Business() {
                     <h1 className="text-3xl text-neutral-700 font-bold mb-4">
                         Related Businesses 
                     </h1>
-                    <div className="grid grid-rows-5 md:grid-cols-2 md:grid-rows-3 xl:grid-cols-5 xl:grid-rows-1 grid-col-3 gap-4">
-                        {relatedBusinessData.map(relatedBusiness =>
-                            <BusinessCard key={`${relatedBusiness.business_id}`} business={relatedBusiness}/>
-                        )}
-                    </div>
+                    {/* Case for No Related Busninesses */}
+                    {emptyRelatedBusinesses 
+                        ?
+                        <div className="text-2xl mb-8 flex-center">
+                            No Related Businesses Available
+                        </div>
+                        :
+                        <div className="grid grid-rows-5 md:grid-cols-2 md:grid-rows-3 xl:grid-cols-5 xl:grid-rows-1 grid-col-3 gap-4">
+                            {relatedBusinessData.map(relatedBusiness =>
+                                <BusinessCard key={`${relatedBusiness.business_id}`} business={relatedBusiness}/>
+                            )}
+                        </div>
+                    }
                 </div>
                 : <Loading text="Related Businesses"/>
             }

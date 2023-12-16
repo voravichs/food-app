@@ -2,6 +2,10 @@ import { motion } from "framer-motion"
 
 import { starListMaker } from "../util/StarList";
 
+/**
+ * City Card component to display info about a city
+ * @param {*} city city json
+ */
 export default function CityCard({city}) {
     
     // Stars

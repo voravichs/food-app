@@ -3,7 +3,12 @@ import { useNavigate } from "react-router-dom";
 
 import { starListMaker } from "../util/StarList";
 
+/**
+ * Business Card component to display info about a business
+ * @param {*} business business json
+ */
 export default function BusinessCard({business}) {
+    // Navigation
     const navigate = useNavigate();
     
     // Stars

@@ -4,6 +4,9 @@ import { motion } from "framer-motion"
 
 import Navbar from '../components/Navbar'
 
+/**
+ * Layout for every page except Home
+ */
 export default function Layout() {
     return (
         <motion.div

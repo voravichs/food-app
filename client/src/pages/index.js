@@ -5,6 +5,7 @@ import User from "./User";
 import Review from "./Review"
 import Layout from "./Layout"
 import NoPage from "./NoPage"
+import Credits from "./Credits"
 
 export {
     Home,
@@ -13,5 +14,6 @@ export {
     User,
     Review,
     Layout,
-    NoPage
+    NoPage,
+    Credits
 }

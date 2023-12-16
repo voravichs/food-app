@@ -3,6 +3,10 @@ import { useNavigate } from "react-router-dom";
 
 import { starListMaker } from "../util/StarList";
 
+/**
+ * Review Card component to display info about reviews
+ * @param {*} review review json
+ */
 export default function ReviewCard({review}) {
     const navigate = useNavigate();
 

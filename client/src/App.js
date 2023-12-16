@@ -4,7 +4,7 @@ import Favicon from "react-favicon";
 import favicon from './images/favicon.ico'
 
 // Pages
-import {Home, Results, Business, User, Review, Layout, NoPage} from './pages'
+import {Home, Results, Business, User, Review, Layout, NoPage, Credits} from './pages'
 
 function App() {
   return (
@@ -18,6 +18,7 @@ function App() {
               <Route path="business" element={<Business />} />
               <Route path="user" element={<User />} />
               <Route path="review" element={<Review />} />
+              <Route path="credits" element={<Credits />} />
               <Route path="*" element={<NoPage />} />
             </Route>
           </Routes>

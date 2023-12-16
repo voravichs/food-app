@@ -3,6 +3,9 @@ import logo from '../images/logo.png'
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { motion } from "framer-motion"
 
+/**
+ * Navbar Component
+ */
 export default function Navbar() {
     const [expanded, setExpanded] = useState(false)
 
@@ -28,14 +31,14 @@ export default function Navbar() {
                 <li className="relative flex-center py-2 px-3 my-1
                     text-xl rounded-lg cursor-pointer
                     transition-colors hover:bg-indigo-200 hover:text-indigo-500">
-                    <a href='/' className={`flex-center ${expanded ? "" : "hidden"}`}>
+                    <a href='/credits' className={`flex-center ${expanded ? "" : "hidden"}`}>
                         About Us
                     </a> 
                 </li>
                 <li className="relative flex-center py-2 px-3 my-1
                     text-xl rounded-lg cursor-pointer
                     transition-colors hover:bg-indigo-200 hover:text-indigo-500">
-                    <a href='/' className={`flex-center ${expanded ? "" : "hidden"}`}>
+                    <a href='https://github.com/voravichs/underground-foodies' className={`flex-center ${expanded ? "" : "hidden"}`}>
                         Github
                     </a> 
                 </li>

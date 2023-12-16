@@ -5,20 +5,27 @@ import { BsChatLeftText, BsEmojiSunglasses } from "react-icons/bs";
 import { SlUserFollow } from "react-icons/sl";
 import { FaStar } from "react-icons/fa";
 
+// Componenets
 import BusinessCard from "../components/BusinessCard";
 import emptyProfile from "../images/blankprofile.png"
 import Loading from "../components/Loading";
 import ReviewCard from "../components/ReviewCard";
 
+// List of months for conversion
 let months = [
     "Jan.", "Feb.", "Mar.", "Apr.", "May.", "Jun.",
     "Jul.", "Aug.", "Sep.", "Oct.", "Nov.", "Dec.",
 ]
 
+/**
+ * User Page
+ */
 export default function User() {
+    // Location Handling from URL Param
     const location = useLocation();
     const userId = new URLSearchParams(location.search).get("userId");
 
+    // States
     const [userData, setUserData] = useState({});
     const [popularBusinessesData, setPopularBusinessesData] = useState([]);
     const [pastVisitData, setPastVisitData] = useState([]);

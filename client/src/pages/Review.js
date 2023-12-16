@@ -4,20 +4,27 @@ import { FaRegLightbulb, FaRegLaughSquint  } from "react-icons/fa";
 import { BsEmojiSunglasses } from "react-icons/bs";
 import { motion } from "framer-motion"
 
+// Components
 import Loading from "../components/Loading";
 import { starListMaker } from "../util/StarList";
 import emptyProfile from "../images/blankprofile.png"
 
+// List of months for conversion
 let months = [
     "Jan.", "Feb.", "Mar.", "Apr.", "May.", "Jun.",
     "Jul.", "Aug.", "Sep.", "Oct.", "Nov.", "Dec.",
 ]
 
+/**
+ * Review Page 
+ */
 export default function Review() {
+    // Location Handling from URL Param
     const location = useLocation();
     const reviewId = new URLSearchParams(location.search).get("reviewId");
     const navigate = useNavigate();
 
+    // States
     const [data, setData] = useState({});
     const [loaded, setLoaded] = useState(false); 
     const [yearMonthDay, setYearMonthDay] = useState([]); 
@@ -75,7 +82,7 @@ export default function Review() {
                         {starList.map(item => (
                             item.star
                         ))}
-                        
+                        <p className="ml-2 text-xl text-gray-800 dark:text-gray-300">{existStars}</p>
                     </div>
                     <p className="text-sm mb-4">
                         {`${months[yearMonthDay[1] - 1]}`} {yearMonthDay[2]}, {yearMonthDay[0]}, {timestamp}
@@ -96,6 +103,5 @@ export default function Review() {
                 : <Loading text="Review"/>
             }          
         </div>
-
     )
 }

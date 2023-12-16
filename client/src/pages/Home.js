@@ -4,15 +4,23 @@ import { useNavigate } from 'react-router-dom';
 import logo from '../images/logo.png'
 import { motion } from "framer-motion"
 
+// Components
 import TopCities from '../components/TopCities'
 import Footer from '../components/Footer'
 
+/**
+ * Home Page
+ */
 export default function Home() {
+    // States
     const [searchNameCatInput, setSearchNameCatInput] = useState("");
     const [searchStateInput, setSearchStateInput] = useState("");
     const [searchConfirm, setSearchConfirm] = useState("");
+
+    // Navigation
     const navigate = useNavigate();
 
+    // Input Handlers
     const handleNameCatChange = (e) => {
         e.preventDefault();
         setSearchNameCatInput(e.target.value);
@@ -65,7 +73,7 @@ export default function Home() {
                     <div className="relative mb-4 w-2/3 mx-auto">
                         <FaSearch className='absolute m-3 text-xl pointer-events-none fill-neutral-400 dark:fill-neutral-300' />
                         <input type="search" 
-                            class="block w-full p-3 ps-10 
+                            className="block w-full p-3 ps-10 
                                 text-md text-gray-900 
                                 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 
                                 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
@@ -78,7 +86,7 @@ export default function Home() {
                         <div className="relative mb-4 flex w-full flex-wrap items-stretch">
                             <FaSearch className='absolute m-3 text-xl pointer-events-none fill-neutral-400 dark:fill-neutral-300' />
                             <input type="search" 
-                                class="block w-full p-3 ps-10 
+                                className="block w-full p-3 ps-10 
                                     text-md text-gray-900 
                                     border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 
                                     dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
@@ -90,7 +98,7 @@ export default function Home() {
                     </div>
                     <div className="flex-center mb-4 text-red-700 dark:text-red-500">{searchConfirm}</div>
                     <div className="flex-center">
-                        <button class="px-8 py-2 
+                        <button className="px-8 py-2 
                             bg-blue-700 rounded-full
                             text-white font-medium text-xl
                             hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 
