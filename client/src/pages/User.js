@@ -42,7 +42,7 @@ export default function User() {
     // API Routes
     useEffect(() => {
         const fetchData = async () => {
-            let data = await fetch(`http://localhost:8080/api/users/${userId}`);
+            let data = await fetch(`/api/users/${userId}`);
             let json = await data.json();
             setLoadedUser(true);
             setUserData(json[0]);
@@ -55,7 +55,7 @@ export default function User() {
 
     useEffect(() => {
         const fetchData = async () => {
-            let data = await fetch(`http://localhost:8080/api/users/${userId}/popularBusinesses`);
+            let data = await fetch(`/api/users/${userId}/popularBusinesses`);
             let json = await data.json();
             setLoadedPopBusinesses(true);
             setPopularBusinessesData(json);
@@ -66,10 +66,10 @@ export default function User() {
 
     useEffect(() => {
         const fetchData = async () => {
-            let data = await fetch(`http://localhost:8080/api/users/${userId}/findPastVisits/?page=${page}&pageSize=${pageSize}`);
+            let data = await fetch(`/api/users/${userId}/findPastVisits/?page=${page}&pageSize=${pageSize}`);
             let json = await data.json();
             if (json.length < 10) {
-                data = await fetch(`http://localhost:8080/api/users/${userId}/findPastVisits`);
+                data = await fetch(`/api/users/${userId}/findPastVisits`);
                 json = await data.json();
             }
             setLoadedPastVisitData(true);
@@ -81,7 +81,7 @@ export default function User() {
 
     useEffect(() => {
         const fetchData = async () => {
-            let data = await fetch(`http://localhost:8080/api/users/${userId}/recommendedBusinesses`);
+            let data = await fetch(`/api/users/${userId}/recommendedBusinesses`);
             let json = await data.json();
             setLoadedRecomBusinesses(true);
             setRecommendedBusinesses(json);

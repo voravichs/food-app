@@ -33,7 +33,7 @@ export default function Review() {
     // API Routes
     useEffect(() => {
         const fetchData = async () => {
-            let data = await fetch(`http://localhost:8080/api/reviews/${reviewId}`);
+            let data = await fetch(`/api/reviews/${reviewId}`);
             let json = await data.json();
             setLoaded(true);
             setData(json[0]);
