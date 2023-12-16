@@ -7,7 +7,7 @@ export default function Navbar() {
     const [expanded, setExpanded] = useState(false)
 
     return (
-        <motion.div className={`xl:h-screen relative px-8 py-16
+        <motion.div className={`relative px-8 py-16
             bg-white dark:bg-slate-800 border-r-2 border-gray-100
             ${expanded ? "w-full md:w-1/2 lg:w-1/4" : "w-12"}`}
             layout>

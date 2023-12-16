@@ -1,35 +1,57 @@
-import React, { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import React, { useState, useEffect, useMemo } from "react";
+import { useLocation } from "react-router-dom";
+import { FaArrowLeft, FaArrowRight, FaStar } from "react-icons/fa";
+
+import BusinessCard from "../components/BusinessCard";
+import ReviewCard from "../components/ReviewCard";
+import Loading from "../components/Loading";
 
 export default function Business() {
     const location = useLocation();
     const businessId = new URLSearchParams(location.search).get("businessid");
-    const navigate = useNavigate();
 
     const [businessData, setBusinessData] = useState({});
     const [reviewData, setReviewData] = useState([]);
     const [relatedBusinessData, setRelatedBusinessData] = useState([]);
     const [page, setPage] = useState(1); 
-    const [pageSize] = useState(5);
+    const [pageSize] = useState(6);
+    const [loadedBusiness, setLoadedBusiness] = useState(false); 
+    const [loadedBusinessReviews, setLoadedBusinessReviews] = useState(false); 
+    const [loadedRelatedBusinesses, setLoadedRelatedBusinesses] = useState(false); 
 
     // API Routes
+    
     useEffect(() => {
-        fetch(`http://localhost:8080/api/businesses/${businessId}`)
-          .then(res => res.json())
-          .then(resJson => setBusinessData(resJson[0]));
+        const fetchData = async () => {
+            let data = await fetch(`http://localhost:8080/api/businesses/${businessId}`);
+            let json = await data.json();
+            setLoadedBusiness(true);
+            setBusinessData(json[0]);
+        }
+        fetchData()
+            .catch(console.error);
     }, [businessId]);
 
     useEffect(() => {
-        fetch(`http://localhost:8080/api/businesses/${businessId}/reviews/?page=${page}&pageSize=${pageSize}`)
-          .then(res => res.json())
-          .then(resJson => setReviewData(resJson));
+        const fetchData = async () => {
+            let data = await fetch(`http://localhost:8080/api/businesses/${businessId}/reviews/?page=${page}&pageSize=${pageSize}`);
+            let json = await data.json();
+            setLoadedBusinessReviews(true);
+            setReviewData(json)
+        }
+        fetchData()
+            .catch(console.error);
     }, [businessId, page, pageSize]);
 
     useEffect(() => {
-        fetch(`http://localhost:8080/api/businesses/${businessId}/relatedBusinesses`)
-          .then(res => res.json())
-          .then(resJson => setRelatedBusinessData(resJson));
+        const fetchData = async () => {
+            let data = await fetch(`http://localhost:8080/api/businesses/${businessId}/relatedBusinesses`);
+            let json = await data.json();
+            setLoadedRelatedBusinesses(true);
+            setRelatedBusinessData(json)
+        }
+        fetchData()
+            .catch(console.error);
     }, [businessId]);
     
     // Page Navigation
@@ -43,43 +65,87 @@ export default function Business() {
         }
     }
 
-    // Redirects
-    function goToReview(review) {
-        navigate(`/review/?reviewId=${review.review_id}`);
-    }
+    // Stars
+    const starList = useMemo(() => {
+        let starList = [];
+        let stars = Math.round(businessData.stars)
+        for (let i = 0; i < stars; i++) {
+            starList.push({
+                star: <FaStar className='text-white bg-yellow-500 rounded p-1 mr-1' key={`${i}${businessData.business_id}`} />
+            })
+        }
+        for (let i = stars; i < 5; i++) {
+            starList.push({
+                star: <FaStar className='' key={`${i}${businessData.business_id}`} />
+            })
+        }
+    
+        let existStars = businessData.stars;
+        if (!existStars) {
+            existStars = "N/A"
+        } else {
+            existStars += " stars"
+        }
+        return starList;
+    }, [businessData.business_id, businessData.stars]);
 
     return (
-        <div>
-            <p>name: {businessData.name}</p>
-            <p>categories: {businessData.categories}</p>
-            <p>location: {businessData.city}, {businessData.state}</p>
-            <p>stars: {businessData.stars}</p>
-            <div>
-                <h1>Reviews</h1>
-                {reviewData.map(review =>
-                    <div className="text-xl hover:cursor-pointer hover:text-2xl" 
-                        onClick={() => goToReview(review)}
-                        key={`${review.review_id}`} >
-                        <p>{review.name}</p>
-                        <p>{review.text}</p>
-                        <p>{review.stars}</p>
+        <div className="mx-16">
+            {/* Business */}
+            {loadedBusiness 
+                ?
+                <div className="mb-12">
+                    <p className="text-5xl text-neutral-700 font-bold">
+                        {businessData.name}
+                    </p>
+                    <p className="text-xl text-neutral-600 mb-4">
+                        {businessData.city}, {businessData.state}
+                    </p>
+                    <p className="flex text-3xl text-gray-800 dark:text-gray-300 mb-4"> 
+                        {starList.map(item => (
+                            item.star
+                        ))}
+                    </p>
+                    <p className="text-xl text-neutral-800 mb-4">
+                        {businessData.categories}
+                    </p>
+                </div>
+                : <Loading text="Business"/>
+            }
+
+            {/* Reviews for Business */}
+            {loadedBusinessReviews 
+                ?
+                <div className="mb-8">
+                    <h1 className="text-3xl text-neutral-700 font-bold">Reviews</h1>
+                    <div className="flex-center mb-4">
+                        <FaArrowLeft className="text-5xl mr-4 hover:cursor-pointer" onClick={prevPage}/>
+                        <FaArrowRight className="text-5xl hover:cursor-pointer" onClick={nextPage}/>
+                    </div>      
+                    <div className="flex flex-col gap-4 mb-4">
+                        {reviewData.map(review =>
+                            <ReviewCard key={`${review.review_id}`} review={review}/>
+                        )}
+                    </div>              
+                </div>
+                : <Loading text="Business Reviews"/>
+            }
+
+            {/* Related Businesses */}
+            {loadedRelatedBusinesses 
+                ?
+                <div>
+                    <h1 className="text-3xl text-neutral-700 font-bold mb-4">
+                        Related Businesses 
+                    </h1>
+                    <div className="grid grid-rows-5 md:grid-cols-2 md:grid-rows-3 xl:grid-cols-5 xl:grid-rows-1 grid-col-3 gap-4">
+                        {relatedBusinessData.map(relatedBusiness =>
+                            <BusinessCard key={`${relatedBusiness.business_id}`} business={relatedBusiness}/>
+                        )}
                     </div>
-                )}
-            </div>
-            <div className="flex">
-                <FaArrowLeft className="text-3xl mr-4 hover:cursor-pointer" onClick={prevPage}/>
-                <FaArrowRight className="text-3xl hover:cursor-pointer" onClick={nextPage}/>
-            </div>
-            <div>
-                <h1>Related Businesses</h1>
-                {relatedBusinessData.map(relatedBusiness =>
-                    <div key={`${relatedBusiness.business_id}`}>
-                        <p>name: {relatedBusiness.name}</p>
-                        <p>location: {relatedBusiness.city}, {relatedBusiness.state}</p>
-                        <p>stars: {relatedBusiness.stars}</p>
-                    </div>
-                )}
-            </div>
+                </div>
+                : <Loading text="Related Businesses"/>
+            }
         </div>
     );
 }

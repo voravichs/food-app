@@ -27,9 +27,9 @@ export default function CityCard({city}) {
         <motion.div className="block p-8 w-96 md:w-full
             border border-gray-200 rounded-lg shadow-xl 
             bg-slate-400 dark:bg-slate-700"
-            initial={{scale: 0}}
+            initial={{scale: 0.25}}
             animate={{scale: 1}}
-            transition={{duration: 0.25, ease: "easeOut"}}>
+            transition={{duration: 0.5, ease: "easeOut"}}>
             <h1 className="mb-2 text-2xl text-neutral-800 dark:text-neutral-200 font-bold ">
                 {city.city}, {city.state}
             </h1>
